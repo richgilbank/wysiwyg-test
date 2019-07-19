@@ -14,7 +14,12 @@ import {
 } from 'react-native';
 import { Permissions, ImagePicker } from 'expo';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import  CNRichTextEditor , { CNToolbar, getInitialObject , getDefaultStyles, convertToHtmlString } from 'react-native-cn-richtext-editor';
+import  CNRichTextEditor, {
+  CNToolbar,
+  getInitialObject,
+  getDefaultStyles,
+  convertToHtmlString
+} from 'react-native-cn-richtext-editor';
 
 import {
   Menu,
@@ -39,6 +44,7 @@ class App extends Component {
     selectedStyles : [],
     value: [getInitialObject()],
     showInputModalType: null,
+    newInputLabel: '',
   }
 
   onStyleKeyPress = (toolType) => {
@@ -83,11 +89,11 @@ class App extends Component {
   }
 
   onRemoveImage = ({url, id}) => {        
-    console.log(`image removed (url : ${url})`);
+    // console.log(`image removed (url : ${url})`);
   }
 
   handleAddInputButton = () => {
-    this.editor.insertInput('text');
+    this.editor.insertInput('text', this.state.newInputLabel);
     this.setState({
       showInputModalType: null,
     })
@@ -123,7 +129,7 @@ class App extends Component {
   }
 
   render() {
-    let customStyles = {...defaultStyles, body: {fontSize: 12}, heading : {fontSize: 16}, title : {fontSize: 20}};
+    let customStyles = {...defaultStyles, body: {fontSize: 16, lineHeight: 20, color: '#434343'}, heading : {fontSize: 16}, title : {fontSize: 20}};
     
     return (
       <KeyboardAvoidingView 
@@ -187,6 +193,8 @@ class App extends Component {
                 <TextInput
                   placeholder='Label'
                   style={{borderBottomWidth: 2, borderColor: '#000'}}
+                  onChangeText={(val) => this.setState({newInputLabel: val})}
+                  value={this.state.newInputLabel}
                 />
               </View>
               <View>
